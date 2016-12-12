@@ -6,8 +6,7 @@ var googleAuth = require('google-auth-library');
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/sheets.googleapis.com-nodejs-quickstart.json
 var SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/urlshortener'];
-var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
-    process.env.USERPROFILE) + '/.credentials/';
+var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/.credentials/';
 var TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.com-nodejs-quickstart.json';
 
 // user values
@@ -105,7 +104,7 @@ function storeToken(token) {
  * @param {google.auth.OAuth2} auth The auth to get the values from the google sheet
  */
 function getUrl(auth) {
-	var longURL = new Array();
+  var longURL = new Array();
   var sheets = google.sheets('v4');
   sheets.spreadsheets.values.get({
     auth: auth,
@@ -123,7 +122,7 @@ function getUrl(auth) {
       console.log('Values:');
       for (var i = 0; i < rows.length; i++) {
         var row = rows[i];
-				// print the value of the row first
+        // print the value of the row first
         console.log('%s', row[0]);
         longURL.push(row[0]);
       }
@@ -132,49 +131,46 @@ function getUrl(auth) {
       var promiseArray = longURL.map(shortenUrl);
       Promise.all(promiseArray)
       .then(shortUrl => {
-				console.log("All the urls were shortened");
-				// update to the google sheet
-				updateUrl(shortUrl, auth)
-			})
-			.catch(reason => {
-				console.log(reason);
-			})
+        console.log("All the urls were shortened");
+        // update to the google sheet
+        updateUrl(shortUrl, auth)
+      })
+      .catch(reason => {
+        console.log(reason);
+      })
     }
   });
 
   /**
-	 * using Promise to guarantees all the async task done, and update to google sheet
-	 *
-	 * @ {String Array} url
-	 */
-	function shortenUrl(url) {
-		return new Promise(
-			function (resolve, reject) {
-				var urlshortener = google.urlshortener('v1');
+   * using Promise to guarantees all the async task done, and update to google sheet
+   *
+   * @ {String Array} url
+   */
+  function shortenUrl(url) {
+    return new Promise(
+      function (resolve, reject) {
+        var urlshortener = google.urlshortener('v1');
 
-				var resource = {
-					longUrl: url
-				};
+        var resource = {
+          longUrl: url
+        };
 
-				// shorten url
-				urlshortener.url.insert({
-					resource,
-					auth: auth
-				}, function (err, response) {
-					if (!err) {
-				    console.log('Short url is', response.id);
-				    resolve(response.id);
-					} else {
-						console.log('Shotening url returned an error:', err);
-				    reject(err);
-				  }
-				});
-
-		});
-	}
+        // shorten url
+        urlshortener.url.insert({
+          resource,
+          auth: auth
+        }, function (err, response) {
+          if (!err) {
+            console.log('Short url is', response.id);
+            resolve(response.id);
+          } else {
+            console.log('Shotening url returned an error:', err);
+            reject(err);
+          }
+        });
+    });
+  }
 }
-
-
 
 /**
  * using Promise to guarantees all the async task done, and update to google sheet
@@ -189,13 +185,13 @@ function updateUrl(shortURL, auth) {
     spreadsheetId: spreadsheetId,
     range: 'B1:B'+numberRow,
     resource:{
-    	range: 'B1:B'+numberRow,
-    	majorDimension: 'COLUMNS',
-    	values: [
-	    	shortURL
-			],
-		},
-		valueInputOption: 'RAW',
+      range: 'B1:B'+numberRow,
+      majorDimension: 'COLUMNS',
+      values: [
+        shortURL
+      ],
+    },
+    valueInputOption: 'RAW',
   }, function(err, response) {
     if (err) {
       console.log('Updating te sheet returned an error: ' + err);

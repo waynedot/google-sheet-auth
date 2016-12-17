@@ -12,11 +12,14 @@ var googleAuth = require('google-auth-library');
 // Robert: 我不知道這下面三行在說啥
 var SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/urlshortener'];
 var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/.credentials/';
-var TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.com-nodejs-quickstart.json';
+var TOKEN_PATH = TOKEN_DIR + 'sheets.googleapis.com-nodeexitjs-quickstart.json';
 
 // user values
 var numberRow = 3;
-var spreadsheetId = '161VIxFLW8wZrG-Ow0xqaejGQEbvbc558NWhlT1PqO6w';
+// var spreadsheetId = '161VIxFLW8wZrG-Ow0xqaejGQEbvbc558NWhlT1PqO6w';
+// robert sheet id
+var spreadsheetId = '1gE9y3TXmgGL1vG3ltw1L1uyAZbc7P21njKsPulNEPzs';
+
 
 // Load client secrets from a local file.
 fs.readFile('client_secret.json', function processClientSecrets(err, content) {
@@ -36,10 +39,12 @@ fs.readFile('client_secret.json', function processClientSecrets(err, content) {
  * @param {Object} credentials The authorization client credentials.
  * @param {function} callback The callback to call with the authorized client.
  */
+
+// Robert: How to set redirect url
 function authorize(credentials, callback) {
-  var clientSecret = credentials.installed.client_secret;
-  var clientId = credentials.installed.client_id;
-  var redirectUrl = credentials.installed.redirect_uris[0];
+  var clientSecret = credentials.web.client_secret;
+  var clientId = credentials.web.client_id;
+  var redirectUrl = credentials.web.redirect_uris[0];
   var auth = new googleAuth();
   var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 
@@ -72,6 +77,9 @@ function getNewToken(oauth2Client, callback) {
     input: process.stdin,
     output: process.stdout
   });
+  
+  // Robert : what is code???
+  
   rl.question('Enter the code from that page here: ', function(code) {
     rl.close();
     oauth2Client.getToken(code, function(err, token) {

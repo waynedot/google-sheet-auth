@@ -1,0 +1,19 @@
+小典寫的google api
+https://github.com/waynedot/google-sheet-auth
+
+
+先進入 condole.developers.google.com註冊 並設定 "redirect url" or "javascript origin" credentials
+https://console.developers.google.com/apis/credentials?project=project-id-arwxkunlhthmukuwskg&hl=zh-tw
+(上面這是我自己的project，可參考圖 google api auth setting)
+
+這邊想問說javscript origin有什麼用??
+還有目前已經知道redirect uri 很重要，因為Google會回傳一個code 參數到這個URI
+(參考圖 redirect the code)
+
+目前是用輸入的方式寫入，能否實作直接接這個url的參數填入呀?
+(參考圖 enter the code)
+
+
+
+
+

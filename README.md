@@ -1,4 +1,5 @@
-# This example is to practice Google sheet API and oauth 2.0. The example is to fetch a URL form a sheet and shorten it. Then paste the result to original sheet.
+# Project goal
+This example is to practice Google sheet API and oauth 2.0. The practice is to fetch a URL form a sheet and shorten it. Then paste the result to original sheet.
 
 # Follow this example to start this project: google sheet and oauth 2.0
 https://developers.google.com/sheets/api/quickstart/nodejs
